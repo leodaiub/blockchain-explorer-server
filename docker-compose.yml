@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    env_file:
+        - .env
+    volumes:
+      - .:/usr/src/app
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+      - redis
+      
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - '6379:6379'
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports: 
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    volumes:
+      -  blockchain-server:/var/lib/postgresql/data
+
+volumes:
+  blockchain-server:
