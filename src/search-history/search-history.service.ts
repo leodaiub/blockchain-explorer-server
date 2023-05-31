@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Search } from './search-history.entity';
+import { Search, SearchType } from './search-history.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -10,8 +10,18 @@ export class SearchHistoryService {
     private searchesRepository: Repository<Search>,
   ) {}
 
-  async get() {
-    return await this.searchesRepository.find();
+  async getTop5() {
+    const addresses = await this.searchesRepository.findAndCount({
+      where: { type: SearchType.Address },
+      take: 5,
+    });
+
+    const transactions = await this.searchesRepository.findAndCount({
+      where: { type: SearchType.Transaction },
+      take: 5,
+    });
+
+    return { transactions, addresses };
   }
 
   async insert(payload) {

@@ -6,6 +6,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export enum SearchType {
+  Address = 'Address',
+  Transaction = 'Transaction',
+}
+
 @Entity()
 export class Search extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -13,6 +18,9 @@ export class Search extends BaseEntity {
 
   @Column()
   hash: string;
+
+  @Column({ enum: SearchType })
+  type: SearchType;
 
   @CreateDateColumn()
   dateCreated: Date;
