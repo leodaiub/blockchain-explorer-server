@@ -4,13 +4,17 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { SearchHistoryModule } from './search-history/search-history.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { DatabaseModule } from './database.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { BullModule } from '@nestjs/bull';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { AuthModule } from './auth/auth.module';
+import { HttpModule } from '@nestjs/axios';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
   imports: [
+    HttpModule,
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -25,11 +29,15 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
         AUTH_TOKEN_SECRET: Joi.string().required(),
       }),
     }),
-    BullModule.forRoot({
-      redis: {
-        host: '0.0.0.0',
-        port: 6379,
-      },
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        redis: {
+          host: configService.get('REDIS_HOST'),
+          port: configService.get('REDIS_PORT'),
+        },
+      }),
+      inject: [ConfigService],
     }),
     ThrottlerModule.forRoot({
       ttl: 60,
@@ -39,6 +47,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     AddressesModule,
     TransactionsModule,
     SearchHistoryModule,
+    AuthModule,
+    SubscriptionsModule,
   ],
   controllers: [],
   providers: [],

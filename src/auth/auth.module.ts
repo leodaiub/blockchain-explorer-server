@@ -6,11 +6,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Auth } from './entities/auth.entity';
 import { BullModule } from '@nestjs/bull';
+import { AuthProcessor } from './queue/auth.processor';
+import { AUTH_QUEUE_NAME } from './queue/auth.contants';
 
 @Module({
   imports: [
     BullModule.registerQueue({
-      name: 'auth',
+      name: AUTH_QUEUE_NAME,
     }),
     TypeOrmModule.forFeature([Auth]),
     JwtModule.registerAsync({
@@ -23,6 +25,7 @@ import { BullModule } from '@nestjs/bull';
     ConfigModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+
+  providers: [AuthService, AuthProcessor],
 })
 export class AuthModule {}

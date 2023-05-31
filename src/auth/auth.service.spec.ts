@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { comparePassword } from './functions';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
+import { AuthService } from './auth.service';
 
-describe('UsersService', () => {
-  let service: UsersService;
+describe('AuthService', () => {
+  let service: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService, { provide: JwtService, useValue: {} }],
+      providers: [AuthService, { provide: JwtService, useValue: {} }],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    service = module.get<AuthService>(AuthService);
   });
 
   describe('create', () => {
@@ -26,7 +26,7 @@ describe('UsersService', () => {
       // Provide your own test data
       const commandResponse = {}; // Provide the expected response from the commandBus
 
-      const result = await service.create(createUserDto);
+      const result = await service.signUp(createUserDto);
 
       expect(result).toEqual({
         message: 'OK_SUCCESSFUL_OPERATION',
@@ -43,7 +43,7 @@ describe('UsersService', () => {
       // Provide your own test data
       const errorMessage = 'Database error';
 
-      await expect(service.create(createUserDto)).rejects.toThrowError(
+      await expect(service.signUp(createUserDto)).rejects.toThrowError(
         'DatabaseError: ' + errorMessage,
       );
     });

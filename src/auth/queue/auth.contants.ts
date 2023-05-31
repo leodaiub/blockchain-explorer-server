@@ -1,3 +1,5 @@
+export const AUTH_QUEUE_NAME = 'auth';
+
 const AUTH_QUEUE_SUFFIX = '_AUTH_QUEUE';
 
 const SIGN_IN = 'SIGN_IN' + AUTH_QUEUE_SUFFIX;

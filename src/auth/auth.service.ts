@@ -25,7 +25,7 @@ export class AuthService {
     });
 
     if (userExists) {
-      throw new ConflictException('Authwith this email already exists');
+      throw new ConflictException('This email already exists');
     }
 
     const savedAuth = await this.authRepository.save(signUpDto);
@@ -42,7 +42,7 @@ export class AuthService {
     });
 
     if (!userFound) {
-      throw new NotFoundException('USER NOT FOUND');
+      throw new NotFoundException('User not found');
     }
 
     await comparePassword(password, userFound.password);

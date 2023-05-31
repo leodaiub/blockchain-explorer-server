@@ -1,26 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { UsersController } from './auth.controller';
-import { UsersService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
 
-describe('UsersController', () => {
+describe('AuthController', () => {
   let app: INestApplication;
-  let userService: UsersService;
+  let userService: AuthService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
-      providers: [UsersService],
+      controllers: [AuthController],
+      providers: [AuthService],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
 
-    userService = moduleFixture.get<UsersService>(UsersService);
+    userService = moduleFixture.get<AuthService>(AuthService);
   });
 
   afterEach(async () => {
@@ -29,7 +29,6 @@ describe('UsersController', () => {
 
   describe('POST /users/signup', () => {
     const createUserDto: SignUpDto = {
-      name: 'usertest',
       password: 'testpassword',
       email: 'test@email.com',
     };
@@ -41,12 +40,11 @@ describe('UsersController', () => {
         .expect(201);
 
       expect(response.body.message).toBe('OK_SUCCESSFUL_OPERATION');
-      expect(userService.create).toHaveBeenCalledWith(createUserDto);
+      expect(userService.signUp).toHaveBeenCalledWith(createUserDto);
     });
 
     it('should return an error for invalid user data', async () => {
       const createUserDto: SignUpDto = {
-        name: 'usertest',
         password: 'testpassword',
         email: 'test@email.com',
       };
@@ -58,7 +56,7 @@ describe('UsersController', () => {
 
       expect(response.body.message).toBe('Bad Request');
       expect(response.body.error).toContain('username should not be empty');
-      expect(userService.create).not.toHaveBeenCalled();
+      expect(userService.signIn).not.toHaveBeenCalled();
     });
   });
 
