@@ -20,6 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@fastify/static": "^6.10.2",
+    "@nestjs/axios": "^2.0.0",
     "@nestjs/bull": "^0.6.3",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.2",
@@ -32,13 +34,19 @@
     "@nestjs/swagger": "^6.3.0",
     "@nestjs/throttler": "^4.0.0",
     "@nestjs/typeorm": "^9.0.1",
+    "@nestjs/websockets": "^9.4.2",
+    "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
     "bull": "^4.10.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "helmet": "^7.0.0",
     "joi": "^17.9.2",
+    "pg": "^8.11.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "socket.io-client": "^4.6.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

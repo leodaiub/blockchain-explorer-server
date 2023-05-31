@@ -1,7 +1,20 @@
-import { Controller } from '@nestjs/common';
-import { AddressesService } from './addresses.service';
+import { Controller, Get, Param } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bull';
+import queue, { ADDRESSES_QUEUE_NAME } from './queue/addresses.contants';
+import { Queue } from 'bull';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('addresses')
+@Controller(ADDRESSES_QUEUE_NAME)
+@ApiTags(ADDRESSES_QUEUE_NAME)
 export class AddressesController {
-  constructor(private readonly addressesService: AddressesService) {}
+  constructor(
+    @InjectQueue(ADDRESSES_QUEUE_NAME)
+    private readonly searchHistoryQueue: Queue,
+  ) {}
+
+  @Get('/:hash')
+  async get(@Param('hash') hash: string) {
+    console.log(hash);
+    return (await this.searchHistoryQueue.add(queue.GET, hash)).finished();
+  }
 }
