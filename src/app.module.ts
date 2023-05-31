@@ -5,7 +5,7 @@ import { SearchHistoryModule } from './search-history/search-history.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { DatabaseModule } from './database.module';
 import { ConfigModule } from '@nestjs/config';
-import Joi from 'joi';
+import * as Joi from 'joi';
 import { BullModule } from '@nestjs/bull';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 
@@ -36,7 +36,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
       limit: 10,
     }),
     DatabaseModule,
-    ,
     AddressesModule,
     TransactionsModule,
     SearchHistoryModule,
