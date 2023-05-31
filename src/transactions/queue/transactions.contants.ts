@@ -1,0 +1,6 @@
+export const TRANSACTIONS_QUEUE_NAME = 'transactions';
+
+const TRANSACTIONS_QUEUE_SUFFIX = '_TRANSACTIONS_QUEUE';
+
+const GET = 'GET' + TRANSACTIONS_QUEUE_SUFFIX;
+export default { GET };
