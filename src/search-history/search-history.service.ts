@@ -11,20 +11,28 @@ export class SearchHistoryService {
   ) {}
 
   async getTop5() {
-    const addresses = await this.searchesRepository.findAndCount({
-      where: { type: SearchType.Address },
-      take: 5,
-    });
+    const addresses = await this.searchesRepository
+      .createQueryBuilder('address')
+      .select('hash')
+      .addSelect('count(*)', 'searches')
+      .groupBy('hash')
+      .orderBy('searches', 'DESC')
+      .where('type = :type', { type: SearchType.Address })
+      .getRawMany();
 
-    const transactions = await this.searchesRepository.findAndCount({
-      where: { type: SearchType.Transaction },
-      take: 5,
-    });
+    const transactions = await this.searchesRepository
+      .createQueryBuilder('transactions')
+      .select('hash')
+      .addSelect('count(*)', 'searches')
+      .groupBy('hash')
+      .orderBy('searches', 'DESC')
+      .where('type = :type', { type: SearchType.Transaction })
+      .getRawMany();
 
     return { transactions, addresses };
   }
 
   async insert(payload) {
-    return await this.searchesRepository.save(payload);
+    return console.log(await this.searchesRepository.save(payload));
   }
 }

@@ -12,7 +12,7 @@ export class SearchHistoryProcessor {
   @Process(queue.GET_TOP5)
   async handleGet() {
     try {
-      await this.searchHistoryService.getTop5();
+      return await this.searchHistoryService.getTop5();
     } catch (error) {
       return error;
     }
@@ -21,7 +21,7 @@ export class SearchHistoryProcessor {
   @Process(queue.INSERT)
   async handleInsert(job: Job) {
     try {
-      await this.searchHistoryService.insert(job.data);
+      return await this.searchHistoryService.insert(job.data);
     } catch (error) {
       return error;
     }

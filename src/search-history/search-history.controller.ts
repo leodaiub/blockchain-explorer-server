@@ -5,9 +5,9 @@ import queue, {
   SEARCH_HISTORY_QUEUE_NAME,
 } from './queue/search-history.contants';
 import { OnEvent } from '@nestjs/event-emitter';
-import events from 'src/common/events';
 import { SearchType } from './search-history.entity';
 import { ApiTags } from '@nestjs/swagger';
+import events from '../common/events';
 
 @Controller(SEARCH_HISTORY_QUEUE_NAME)
 @ApiTags(SEARCH_HISTORY_QUEUE_NAME)
@@ -19,11 +19,14 @@ export class SearchHistoryController {
 
   @Get('/top5')
   async get() {
-    return await this.searchHistoryQueue.add(queue.GET_TOP5);
+    return (await this.searchHistoryQueue.add(queue.GET_TOP5)).finished();
   }
 
   @OnEvent(events.HASH_SEARCHED)
   async insertSearchHistory(payload: { hash: string; type: SearchType }) {
-    return await this.searchHistoryQueue.add(queue.INSERT, payload);
+    console.log(payload);
+    return (
+      await this.searchHistoryQueue.add(queue.INSERT, payload)
+    ).finished();
   }
 }

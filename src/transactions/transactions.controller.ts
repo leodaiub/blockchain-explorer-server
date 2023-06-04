@@ -14,7 +14,6 @@ export class TransactionsController {
 
   @Get('/:hash')
   async get(@Param('hash') hash: string) {
-    console.log(hash);
     return (await this.searchHistoryQueue.add(queue.GET, hash)).finished();
   }
 }
