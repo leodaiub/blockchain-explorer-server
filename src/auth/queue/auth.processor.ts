@@ -12,8 +12,9 @@ export class AuthProcessor {
   @Process(queue.SIGN_UP)
   async handleSignUp(job: Job) {
     try {
-      await this.authService.signUp(job.data);
+      return await this.authService.signUp(job.data);
     } catch (error) {
+      console.log(error);
       return error;
     }
   }

@@ -6,7 +6,8 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'http';
 import { SocketClient } from './subscriptions.client';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/classes/authGuard.class';
 
 @WebSocketGateway({
   cors: {
@@ -14,6 +15,7 @@ import { Injectable } from '@nestjs/common';
   },
 })
 @Injectable()
+@UseGuards(AuthGuard)
 export class SubscriptionsGateway {
   constructor(private wsConsumer: SocketClient) {}
   @WebSocketServer()

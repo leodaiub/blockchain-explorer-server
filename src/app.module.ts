@@ -11,6 +11,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AuthModule } from './auth/auth.module';
 import { HttpModule } from '@nestjs/axios';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
     SearchHistoryModule,
     AuthModule,
     SubscriptionsModule,
+    JwtModule,
   ],
   controllers: [],
   providers: [],

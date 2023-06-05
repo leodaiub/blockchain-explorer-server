@@ -6,9 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Search } from './search-history.entity';
 import { SearchHistoryProcessor } from './queue/search-history.processor';
 import { SEARCH_HISTORY_QUEUE_NAME } from './queue/search-history.contants';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    JwtModule,
     BullModule.registerQueue({
       name: SEARCH_HISTORY_QUEUE_NAME,
     }),

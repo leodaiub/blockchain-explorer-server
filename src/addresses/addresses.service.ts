@@ -18,17 +18,21 @@ export class AddressesService {
       hash,
       type: SearchType.Address,
     });
+    try {
+      const { data } = await firstValueFrom(
+        this.httpService
+          .get<any[]>('https://blockchain.info/rawaddr/' + hash)
+          .pipe(
+            catchError((error: AxiosError) => {
+              console.log(error);
+              throw error;
+            }),
+          ),
+      );
 
-    const { data } = await firstValueFrom(
-      this.httpService
-        .get<any[]>('https://blockchain.info/rawaddr/' + hash)
-        .pipe(
-          catchError((error: AxiosError) => {
-            throw error;
-          }),
-        ),
-    );
-
-    return data;
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
 }

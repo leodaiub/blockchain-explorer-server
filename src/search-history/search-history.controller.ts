@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import queue, {
@@ -8,9 +8,11 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { SearchType } from './search-history.entity';
 import { ApiTags } from '@nestjs/swagger';
 import events from '../common/events';
+import { AuthGuard } from 'src/auth/classes/authGuard.class';
 
 @Controller(SEARCH_HISTORY_QUEUE_NAME)
 @ApiTags(SEARCH_HISTORY_QUEUE_NAME)
+@UseGuards(AuthGuard)
 export class SearchHistoryController {
   constructor(
     @InjectQueue(SEARCH_HISTORY_QUEUE_NAME)
@@ -24,7 +26,6 @@ export class SearchHistoryController {
 
   @OnEvent(events.HASH_SEARCHED)
   async insertSearchHistory(payload: { hash: string; type: SearchType }) {
-    console.log(payload);
     return (
       await this.searchHistoryQueue.add(queue.INSERT, payload)
     ).finished();

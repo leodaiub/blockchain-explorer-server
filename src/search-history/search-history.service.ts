@@ -18,6 +18,7 @@ export class SearchHistoryService {
       .groupBy('hash')
       .orderBy('searches', 'DESC')
       .where('type = :type', { type: SearchType.Address })
+      .take(5)
       .getRawMany();
 
     const transactions = await this.searchesRepository
@@ -27,12 +28,13 @@ export class SearchHistoryService {
       .groupBy('hash')
       .orderBy('searches', 'DESC')
       .where('type = :type', { type: SearchType.Transaction })
+      .take(5)
       .getRawMany();
 
     return { transactions, addresses };
   }
 
   async insert(payload) {
-    return console.log(await this.searchesRepository.save(payload));
+    return await this.searchesRepository.save(payload);
   }
 }
