@@ -5,12 +5,14 @@ import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import events from '../common/events';
 import { SearchType } from '../search-history/search-history.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AddressesService {
   constructor(
     private readonly httpService: HttpService,
     private eventEmitter: EventEmitter2,
+    private configService: ConfigService,
   ) {}
 
   async get(hash: string) {
@@ -21,10 +23,11 @@ export class AddressesService {
     try {
       const { data } = await firstValueFrom(
         this.httpService
-          .get<any[]>('https://blockchain.info/rawaddr/' + hash)
+          .get<any[]>(
+            `${this.configService.get('BLOCKCHAIN_INFO_URL')}/${hash}`,
+          )
           .pipe(
             catchError((error: AxiosError) => {
-              console.log(error);
               throw error;
             }),
           ),

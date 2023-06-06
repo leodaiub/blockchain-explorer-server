@@ -29,6 +29,7 @@ import { ExchangeModule } from './exchange/exchange.module';
         PORT: Joi.number(),
         SALT_ROUNDS: Joi.number().required(),
         AUTH_TOKEN_SECRET: Joi.string().required(),
+        BLOCKCHAIN_INFO_URL: Joi.string().required(),
       }),
     }),
     BullModule.forRootAsync({
@@ -37,6 +38,8 @@ import { ExchangeModule } from './exchange/exchange.module';
         redis: {
           host: configService.get('REDIS_HOST'),
           port: configService.get('REDIS_PORT'),
+          username: configService.get('REDIS_USER'),
+          password: configService.get('REDIS_PASSWORD'),
         },
       }),
       inject: [ConfigService],

@@ -14,7 +14,6 @@ export class AuthProcessor {
     try {
       return await this.authService.signUp(job.data);
     } catch (error) {
-      console.log(error);
       return error;
     }
   }

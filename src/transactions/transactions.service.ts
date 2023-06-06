@@ -5,12 +5,14 @@ import { AxiosError } from 'axios';
 import events from '../common/events';
 import { catchError, firstValueFrom } from 'rxjs';
 import { SearchType } from '../search-history/search-history.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TransactionsService {
   constructor(
     private readonly httpService: HttpService,
     private eventEmitter: EventEmitter2,
+    private configService: ConfigService,
   ) {}
 
   async get(hash: string) {
@@ -20,11 +22,15 @@ export class TransactionsService {
     });
 
     const { data } = await firstValueFrom(
-      this.httpService.get<any[]>('https://blockchain.info/rawtx/' + hash).pipe(
-        catchError((error: AxiosError) => {
-          throw error;
-        }),
-      ),
+      this.httpService
+        .get<any[]>(
+          `${this.configService.get('BLOCKCHAIN_INFO_URL')}/rawtx/${hash}`,
+        )
+        .pipe(
+          catchError((error: AxiosError) => {
+            throw error;
+          }),
+        ),
     );
 
     return data;
