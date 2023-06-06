@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { HttpModule } from '@nestjs/axios';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ExchangeModule } from './exchange/exchange.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { JwtModule } from '@nestjs/jwt';
     SearchHistoryModule,
     AuthModule,
     SubscriptionsModule,
+    ExchangeModule,
     JwtModule,
   ],
   controllers: [],
