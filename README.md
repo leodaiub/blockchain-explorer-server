@@ -7,9 +7,9 @@
   <p align="center">
    Application to enable users to authenticate, and then use hashes to search for blockchain addresses or transactions, and view the info about them, and it also shows the top 5 searched hashes for each type.
     <br />
-    <a href="https://blockchain-explorer.up.railway.app/api">View Api Documentation</a>
-    <a href="https://blockchain-explorer-client.vercel.app/">View live application</a>
-    <a href="https://github.com/leodaiub/blockchain-explorer-client">View front-end repository</a>
+    <a href="https://blockchain-explorer.up.railway.app/api">View Api Documentation</a><br />
+    <a href="https://blockchain-explorer-client.vercel.app/">View live application</a><br />
+    <a href="https://github.com/leodaiub/blockchain-explorer-client">View front-end repository</a><br />
   </p>
 </p>
 
