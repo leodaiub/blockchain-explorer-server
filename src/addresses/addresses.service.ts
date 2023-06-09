@@ -24,7 +24,7 @@ export class AddressesService {
       const { data } = await firstValueFrom(
         this.httpService
           .get<any[]>(
-            `${this.configService.get('BLOCKCHAIN_INFO_URL')}/${hash}`,
+            `${this.configService.get('BLOCKCHAIN_INFO_URL')}/rawaddr/${hash}`,
           )
           .pipe(
             catchError((error: AxiosError) => {
